@@ -1,0 +1,20 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from app.core.config import settings
+# from dotenv import load_dotenv
+# import os
+
+# load_dotenv()
+
+
+# DATABASE_URL = os.getenv("postgresql://postgres:postgres@localhost:5433/multi-Tenant-system")
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo = True
+)
+
+SessionLocal = sessionmaker(
+    autocommit = False,
+    autoflush= False,
+    bind = engine
+)
