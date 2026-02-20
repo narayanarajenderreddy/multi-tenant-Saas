@@ -14,8 +14,9 @@ def get_projects(
     order: str
 ):
     query = db.query(Project).filter(
-        Project.is_deleted == False
+        Project.is_deleted == True
     )
+    
 
     if not current_user.is_super_admin:
         query = query.filter(
@@ -42,7 +43,7 @@ def get_projects(
     
 
 
-def create_project(db:Session,projectdata:ProjectCreate,current_user:User):
+def create_new_project(db:Session,projectdata:ProjectCreate,current_user:User):
     if not current_user:
         raise HTTPException(status_code=400,
                             message = "Invalid credentials")
@@ -63,7 +64,7 @@ def create_project(db:Session,projectdata:ProjectCreate,current_user:User):
     
     return add_new_project
 
-def delete_project(db:Session,project_id:int,current_user:User):
+def delete_project_list(db:Session,project_id:int,current_user:User):
     if current_user.is_super_admin:
         project = db.query(Project).filter(Project.id == project_id,Project.is_deleted == False).first()
     else:    
